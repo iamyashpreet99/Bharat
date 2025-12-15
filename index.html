@@ -82,6 +82,44 @@
             fill: var(--light-cream);
         }
 
+        /* Top Ticker */
+        .top-ticker {
+            background-color: white;
+            color: #D32F2F;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            border-bottom: 2px solid var(--primary-yellow);
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            z-index: 1001;
+        }
+
+        .ticker-content {
+            display: inline-block;
+            animation: marquee 35s linear infinite;
+            padding-left: 100%;
+        }
+
+        .ticker-content span {
+            margin-right: 50px;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
         /* Navigation */
         nav {
             background: var(--primary-yellow);
@@ -875,6 +913,16 @@
 </head>
 
 <body>
+    <!-- Top Ticker -->
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSd6iaOJIjzvmdI3n_VUyFCt46JqoU7v2g8YO7zsRZzHe97n9Q/viewform"
+        target="_blank" class="top-ticker">
+        <div class="ticker-content">
+            <span>📢 Admissions Open for Session 2025-26! Click here to Apply Now! Limited Seats Available.</span>
+            <span>📢 Admissions Open for Session 2025-26! Click here to Apply Now! Limited Seats Available.</span>
+            <span>📢 Admissions Open for Session 2025-26! Click here to Apply Now! Limited Seats Available.</span>
+        </div>
+    </a>
+
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
