@@ -40,6 +40,50 @@
             font-family: 'Fredoka', sans-serif;
         }
 
+        /* Top Ticker */
+        .top-ticker {
+            background-color: white;
+            color: #D32F2F;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            border-bottom: 2px solid var(--primary-yellow);
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            z-index: 1001;
+        }
+
+        .ticker-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 25s linear infinite;
+            padding-left: 100%;
+        }
+
+        .ticker-content span {
+            display: inline-block;
+            padding-right: 50px;
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            100% {
+                transform: translate3d(-100%, 0, 0);
+            }
+        }
+
+        .top-ticker:hover .ticker-content {
+            animation-play-state: paused;
+        }
+
         /* Navigation */
         nav {
             background: var(--primary-yellow);
@@ -491,7 +535,8 @@
                 padding-top: 0;
             }
 
-            .dropdown:hover .dropdown-content {
+            .dropdown:hover .dropdown-content,
+            .dropdown.active .dropdown-content {
                 display: block;
                 animation: none;
             }
@@ -505,6 +550,15 @@
 </head>
 
 <body>
+    <!-- Top Ticker -->
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSd6iaOJIjzvmdI3n_VUyFCt46JqoU7v2g8YO7zsRZzHe97n9Q/viewform"
+        target="_blank" class="top-ticker">
+        <div class="ticker-content">
+            <span>📢 Admissions Open for Session 2026-27! Click here to Apply Now! Limited Seats Available.</span>
+            <span>📢 Admissions Open for Session 2026-27! Click here to Apply Now! Limited Seats Available.</span>
+            <span>📢 Admissions Open for Session 2026-27! Click here to Apply Now! Limited Seats Available.</span>
+        </div>
+    </a>
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
@@ -512,7 +566,7 @@
                 <img src="images/logo.jpg" alt="Logo">
                 <div class="logo-text">
                     <span class="logo-main">Indian Heritage</span>
-                    <span class="logo-sub">School</span>
+                    <span class="logo-sub">Elementary School</span>
                 </div>
             </a>
             <ul class="nav-links">
@@ -610,7 +664,7 @@
         </div>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>Indian Heritage School</h3>
+                <h3>Indian Heritage Elementary School</h3>
                 <p>Nurturing excellence and building character through quality education since 1998.</p>
                 <div class="social-links">
                     <a href="https://www.instagram.com/ihskanpur?igsh=MTVtMm1wemV5eWhmYw%3D%3D&utm_source=qr"
@@ -661,7 +715,6 @@
         // Mobile Menu Toggle
         const mobileMenu = document.querySelector('.mobile-menu');
         const navLinks = document.querySelector('.nav-links');
-        const navLinksItems = document.querySelectorAll('.nav-links li');
 
         if (mobileMenu) {
             mobileMenu.addEventListener('click', () => {
@@ -670,11 +723,34 @@
             });
         }
 
-        // Close menu when link is clicked
-        navLinksItems.forEach(link => {
-            link.addEventListener('click', () => {
+        // Handle Dropdowns on Mobile
+        const dropdowns = document.querySelectorAll('.dropdown');
+        dropdowns.forEach(dropdown => {
+            const toggle = dropdown.querySelector('a');
+            if (toggle) {
+                toggle.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        dropdown.classList.toggle('active');
+                    }
+                });
+            }
+        });
+
+        // Close menu when a regular link is clicked
+        const allLinks = document.querySelectorAll('.nav-links a');
+        allLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                // If it's a dropdown toggle and we are on mobile, don't close the menu
+                if (window.innerWidth <= 768 && link.parentElement.classList.contains('dropdown')) {
+                    return;
+                }
+
                 navLinks.classList.remove('nav-active');
                 if (mobileMenu) mobileMenu.textContent = '☰';
+
+                // Close any open dropdowns
+                dropdowns.forEach(d => d.classList.remove('active'));
             });
         });
     </script>

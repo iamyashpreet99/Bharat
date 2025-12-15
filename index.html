@@ -1034,7 +1034,8 @@
                 padding-top: 0;
             }
 
-            .dropdown:hover .dropdown-content {
+            .dropdown:hover .dropdown-content,
+            .dropdown.active .dropdown-content {
                 display: block;
                 animation: none;
             }
@@ -1052,9 +1053,9 @@
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSd6iaOJIjzvmdI3n_VUyFCt46JqoU7v2g8YO7zsRZzHe97n9Q/viewform"
         target="_blank" class="top-ticker">
         <div class="ticker-content">
-            <span>📢 Admissions Open for Session 2025-26! Click here to Apply Now! Limited Seats Available.</span>
-            <span>📢 Admissions Open for Session 2025-26! Click here to Apply Now! Limited Seats Available.</span>
-            <span>📢 Admissions Open for Session 2025-26! Click here to Apply Now! Limited Seats Available.</span>
+            <span>📢 Admissions Open for Session 2026-27! Click here to Apply Now! Limited Seats Available.</span>
+            <span>📢 Admissions Open for Session 2026-27! Click here to Apply Now! Limited Seats Available.</span>
+            <span>📢 Admissions Open for Session 2026-27! Click here to Apply Now! Limited Seats Available.</span>
         </div>
     </a>
 
@@ -1065,7 +1066,7 @@
                 <img src="images/logo.jpg" alt="Logo">
                 <div class="logo-text">
                     <span class="logo-main">Indian Heritage</span>
-                    <span class="logo-sub">School</span>
+                    <span class="logo-sub">Elementary School</span>
                 </div>
             </a>
             <ul class="nav-links">
@@ -1097,7 +1098,7 @@
         <div class="hero-content">
             <div class="hero-text">
                 <h1>Students have Infinite Fortitude To Change The World</h1>
-                <p>A S.H.I.F.T in education system</p>
+                <p><b>A S.H.I.F.T in education system</b></p>
                 <div class="cta-buttons">
                     <a href="#admissions" class="btn-primary">Apply Now</a>
                     <a href="#about" class="btn-secondary">Learn More</a>
@@ -1205,7 +1206,7 @@
                     </div>
                 </div>
             </div>
-            <div class="about-image">
+            <div class="about-image" style="display: none;">
                 <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&h=600&fit=crop"
                     alt="Students learning"
                     style="width: 100%; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
@@ -1238,7 +1239,7 @@
         </div>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>Indian Heritage School</h3>
+                <h3>Indian Heritage Elementary School</h3>
                 <p>Nurturing excellence and building character through quality education since 1998.</p>
                 <div class="social-links">
                     <a href="https://www.instagram.com/ihskanpur?igsh=MTVtMm1wemV5eWhmYw%3D%3D&utm_source=qr"
@@ -1297,10 +1298,10 @@
                 }
             });
         });
+
         // Mobile Menu Toggle
         const mobileMenu = document.querySelector('.mobile-menu');
         const navLinks = document.querySelector('.nav-links');
-        const navLinksItems = document.querySelectorAll('.nav-links li');
 
         if (mobileMenu) {
             mobileMenu.addEventListener('click', () => {
@@ -1309,11 +1310,34 @@
             });
         }
 
-        // Close menu when link is clicked
-        navLinksItems.forEach(link => {
-            link.addEventListener('click', () => {
+        // Handle Dropdowns on Mobile
+        const dropdowns = document.querySelectorAll('.dropdown');
+        dropdowns.forEach(dropdown => {
+            const toggle = dropdown.querySelector('a');
+            if (toggle) {
+                toggle.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        dropdown.classList.toggle('active');
+                    }
+                });
+            }
+        });
+
+        // Close menu when a regular link is clicked
+        const allLinks = document.querySelectorAll('.nav-links a');
+        allLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                // If it's a dropdown toggle and we are on mobile, don't close the menu
+                if (window.innerWidth <= 768 && link.parentElement.classList.contains('dropdown')) {
+                    return;
+                }
+
                 navLinks.classList.remove('nav-active');
                 if (mobileMenu) mobileMenu.textContent = '☰';
+
+                // Close any open dropdowns
+                dropdowns.forEach(d => d.classList.remove('active'));
             });
         });
     </script>
