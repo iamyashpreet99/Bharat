@@ -724,7 +724,7 @@
             });
         }
 
-        // Handle Dropdowns on Mobile
+                // Handle Dropdowns on Mobile
         const dropdowns = document.querySelectorAll('.dropdown');
         dropdowns.forEach(dropdown => {
             const toggle = dropdown.querySelector('a');
@@ -732,6 +732,13 @@
                 toggle.addEventListener('click', (e) => {
                     if (window.innerWidth <= 768) {
                         e.preventDefault();
+                        e.stopImmediatePropagation();
+                        
+                        // Close other dropdowns
+                        dropdowns.forEach(d => {
+                            if (d !== dropdown) d.classList.remove('active');
+                        });
+
                         dropdown.classList.toggle('active');
                     }
                 });
@@ -742,16 +749,13 @@
         const allLinks = document.querySelectorAll('.nav-links a');
         allLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                // If it's a dropdown toggle and we are on mobile, don't close the menu
-                if (window.innerWidth <= 768 && link.parentElement.classList.contains('dropdown')) {
-                    return;
+                if (window.innerWidth <= 768) {
+                    if (link.parentElement.classList.contains('dropdown')) return;
+
+                    navLinks.classList.remove('nav-active');
+                    if (mobileMenu) mobileMenu.textContent = '☰';
+                    dropdowns.forEach(d => d.classList.remove('active'));
                 }
-
-                navLinks.classList.remove('nav-active');
-                if (mobileMenu) mobileMenu.textContent = '☰';
-
-                // Close any open dropdowns
-                dropdowns.forEach(d => d.classList.remove('active'));
             });
         });
     </script>
